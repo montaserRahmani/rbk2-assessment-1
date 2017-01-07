@@ -5,12 +5,39 @@ var makeHashTable = function() {
   return {
     _storage: [],
     retrieve: function(key) {
-      //your code is here
+     var index = hashFn(key, max);
+     var container = this._storage[index];
+     if(container){
+      for(var i=0; i<container.length; i++){
+        var kvPair=container[i];
+        if(kvPair[0] === key){
+          return kvPair[1];
+        }
+      }
+     }
+     return undefined;
     },
 
     insert: function(key, value) {
-      //your code is here
-  };
+     var index = hashFn(key, max);
+     var container = this._storage[index];
+     if(!container){
+      container = [];
+     }
+     var flag = true;
+      for(var i=0; i<container.length; i++){
+        var kvPair=container[i];
+          if(kvPair[0] === key){
+            kvPair[1] = value;
+            flag = false;
+          }
+     }
+     if(flag){
+      container.push([key,value]);
+     }
+     this._storage[index]= container;
+  }
+}
 };
 
 // This is a "hashing function". You don't need to worry about it, just use it to turn any key into a pseudo-random key
